@@ -1,13 +1,18 @@
 
 import fetch from 'isomorphic-unfetch'
 import Layout from '../../components/MyLayout'
+import styles from '../../components/Card.module.css'
 
 
 const FlowerDetail = props => (
 
   < Layout >
-    <p>{props.flower.common_name}</p>
-    <p>{props.flower.blooming_season}</p>
+    <p>Flower name: {props.flower.common_name}</p>
+    <p>Flower latin name: {props.flower.latin_name}</p>
+    <p>Blooming season:{props.flower.blooming_season}</p>
+    <p> Soil:{props.flower.soil.toString()}</p>
+    <p> Sun: {props.flower.sun}</p>
+    {props.flower.cover_image ? <img src={props.flower.cover_image} className={styles.flowerImg} /> : null}
   </Layout >
 );
 

@@ -4,8 +4,6 @@ import fetch from 'isomorphic-unfetch'
 // Components
 import Layout from '../components/MyLayout'
 
-
-
 const Index = props => (
   <Layout>
     <h1>Flowers List</h1>
@@ -15,6 +13,7 @@ const Index = props => (
           <Link href="/p/[flowerId]" as={`/p/${props.flowers.indexOf(flower)}`}>
             <a>{flower.common_name}</a>
           </Link>
+
         </li>
       ))}
     </ul>

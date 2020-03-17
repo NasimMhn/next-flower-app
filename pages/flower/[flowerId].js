@@ -1,13 +1,18 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
-
 import fetch from 'isomorphic-unfetch'
-import Layout from '../../components/MyLayout'
-import { useRouter } from 'next/router'
-
 
 // Styled components
 import styled from 'styled-components';
+
+// Components
+import Layout from '../../components/MyLayout'
+import { Header } from '../../components/Header'
+
+import { useRouter } from 'next/router'
+
+
+
 
 
 
@@ -19,21 +24,26 @@ const FlowerDetail = props => {
   return (
 
     <Layout>
-      <Link href="/">
-        <BackButton>
-          <Icon xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30">
-            <path d="M27 14.5C27 7.596441 21.4035594 2 14.5 2S2 7.596441 2 14.5 7.5964406 27 14.5 27 27 21.403559 27 14.5zm-19.3388348-.353553l7.4852814-7.485282c.1952622-.195262.5118446-.195262.7071068 0l2.1213203 2.121321c.1952622.195262.1952622.511844 0 .707106L12.9644661 14.5l5.0104076 5.010408c.1952622.195262.1952622.511844 0 .707106l-2.1213203 2.121321c-.1952622.195262-.5118446.195262-.7071068 0l-7.4852814-7.485282c-.19799-.19799-.197989-.509117 0-.707106z"
-              fill="#fff"
-              fillRule="evenodd">
-            </path>
-          </Icon>
-          Back to flowers
-          </BackButton>
-      </Link>
+      <Header>
+        <FlexWrapper>
+          <Link href="/">
+            <BackButton>
+              <Icon xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30">
+                <path d="M27 14.5C27 7.596441 21.4035594 2 14.5 2S2 7.596441 2 14.5 7.5964406 27 14.5 27 27 21.403559 27 14.5zm-19.3388348-.353553l7.4852814-7.485282c.1952622-.195262.5118446-.195262.7071068 0l2.1213203 2.121321c.1952622.195262.1952622.511844 0 .707106L12.9644661 14.5l5.0104076 5.010408c.1952622.195262.1952622.511844 0 .707106l-2.1213203 2.121321c-.1952622.195262-.5118446.195262-.7071068 0l-7.4852814-7.485282c-.19799-.19799-.197989-.509117 0-.707106z"
+                  fill="#fff"
+                  fillRule="evenodd">
+                </path>
+              </Icon>
+                  Back to flowers
+            </BackButton>
+          </Link>
+        </FlexWrapper>
+      </Header>
 
 
-      <Title> {props.flower.common_name}</Title>
+
       <DetailWrapper>
+        <Title> {props.flower.common_name}</Title>
         <ContentWrapper >
           <ImgContainer>
             <FlowerImg src={props.flower.cover_image ? props.flower.cover_image : '../no-image.png'} />
@@ -120,33 +130,36 @@ FlowerDetail.getInitialProps = async function (context) {
 
 // Styling
 
-
 const Title = styled.h1`
  text-align:center;
 `
-
-const BackButton = styled.span`
-  position: relative;
-  display: inline-flex;
-  color: #512b58;
-  align-items: center;
-  font-weight: bolder;
-  font-size: 18px;
-  left: 20px;
-  top: 20px;
-  cursor: pointer;
- 
-`
-
 const Icon = styled.svg`
   width: 50px;
   margin-right: 10px;
-  transition: margin-right 0.2s ease-in-out;
-  &&:hover  {
-    margin-right: 5px;
-  }
- 
 `
+
+const BackButton = styled.span`
+  display: inline-flex;
+  color: white;
+  align-items: center;
+  font-weight: bolder;
+  font-size: 18px;
+  margin-left: 10px;
+  cursor: pointer;
+  &:hover ${Icon}  {
+    margin-right: 5px;
+    transition: margin-right 0.2s ease-in-out
+  }
+
+`
+const FlexWrapper = styled.div`
+  height:100%;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+`
+
 
 const FlowerImg = styled.img`
   height: 300px;

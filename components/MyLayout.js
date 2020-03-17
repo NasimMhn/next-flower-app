@@ -10,8 +10,7 @@ const Layout = (props) => {
         body {
           margin: 0;
           padding: 0;
-          font-family: 'Open Sans', sans-serif;
-          background: #7f78d2;       
+          background: black;       
           height:100% !important;
           min-height: 100vh;
           width: 100%;
@@ -28,15 +27,11 @@ const Layout = (props) => {
 
 
 
-
-
-
 // Styling
 const layoutStyle = {
-  padding: 20,
-  backgroundColor: '#ffc8bd',
-  height: 'ienherit',
-  width: ' 100'
+  padding: 0,
+  margin: 0,
+  backgroundColor: 'rgba(94,7,166,1)',
 
 }
 

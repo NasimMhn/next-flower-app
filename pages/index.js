@@ -3,14 +3,18 @@ import fetch from 'isomorphic-unfetch'
 
 // Components
 import Layout from '../components/MyLayout'
-
+import { Header } from '../components/Header'
 // Styled components
 import styled from 'styled-components';
 
 
 const Index = props => (
   <Layout>
-    <Title>Flower</Title>
+    <Header>
+      <FlexWrapper>
+        <Title> Flower </Title>
+      </FlexWrapper>
+    </Header>
     <CardsWrapper>
       {props.flowers.map(flower => (
         <Link href="/flower/[flowerId]" as={`/flower/${props.flowers.indexOf(flower)}`} >
@@ -35,8 +39,18 @@ Index.getInitialProps = async function () {
 
 // Styling
 
+const FlexWrapper = styled.div`
+  height:100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
 const Title = styled.h1`
- 
+  color: white;
+  margin: 0px;
+  align-self: center;
+  justify-self: center;
 `
 
 const CardsWrapper = styled.section`
@@ -58,13 +72,13 @@ const FlowerDiv = styled.div`
 `
 
 const OverlayDiv = styled.div`
+  font-size: 35px;
+  color: white;
   position: absolute;
   top:0;
   right: 0;
   width: 100%;
   height: 100%;
-  color: #ffc7c7;
-  font-size: 28px;
   z-index: -1;
   display: flex;
   flex-direction: column;
@@ -78,10 +92,13 @@ const Card = styled.div`
   position: relative;
   z-index:1;
   margin: 15px 15px;
-  border: 1px solid transparent;
+  border: 1px solid white;
   border-radius: 10px;
   &&:hover {
-    border: 1px solid white;
+    border: 1px solid transparent;
+    -webkit-box-shadow: 0px 0px 16px 0px rgba(94,7,166,1);
+    -moz-box-shadow: 0px 0px 16px 0px rgba(94,7,166,1);
+    box-shadow: 0px 0px 16px 0px rgba(94,7,166,1);
     transition: 0.4s;
   }
   &:hover ${FlowerDiv} {
@@ -90,6 +107,7 @@ const Card = styled.div`
   }
   &:hover ${OverlayDiv} {
     z-index: 2;
+    transition: 0.4s;
   }
 `
 

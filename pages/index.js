@@ -8,24 +8,17 @@ import Layout from '../components/MyLayout'
 import styled from 'styled-components';
 
 
-
-
 const Index = props => (
   <Layout>
+    <Title>Flower</Title>
     <CardsWrapper>
-
       {props.flowers.map(flower => (
-        <Link href="/p/[flowerId]" as={`/p/${props.flowers.indexOf(flower)}`} >
+        <Link href="/flower/[flowerId]" as={`/flower/${props.flowers.indexOf(flower)}`} >
 
           <Card >
-
-            <FlowerImg src={flower.cover_image ? flower.cover_image : '../no-image.png'} />
-            <Text >{flower.common_name}</Text >
-
-
-
+            <FlowerDiv filepath={flower.cover_image ? flower.cover_image : '../no-image.png'} />
+            <OverlayDiv >{flower.common_name}</OverlayDiv>
           </Card>
-
         </Link>
 
       ))}
@@ -40,54 +33,43 @@ Index.getInitialProps = async function () {
 
 };
 
-
-
-
 // Styling
 
+const Title = styled.h1`
+ 
+`
+
 const CardsWrapper = styled.section`
- background-color: #8785a2;
+ background-color: black;
   display: flex;
   justify-content:center;
   flex-wrap: wrap;
   width: 100%;
 `
 
-const FlowerImg = styled.img`
-  width: 100%;
+const FlowerDiv = styled.div`
+  background-image: url(${props => props.filepath});
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   height:350px;
   z-index: 0;
   border-radius: 10px;
-
 `
 
-// const FlowerLink = styled.a`
-//   text-decoration: none;
-//   position: relative;
-//   width: 25%;
-//   color: #fff;
-//   text-decoration: none;
-//   z-index: 1;
-
-// ` 
-
-const Text = styled.span`
+const OverlayDiv = styled.div`
   position: absolute;
-  top:100px;
+  top:0;
   right: 0;
-  bottom: 0;
-  left: 0;
   width: 100%;
-  min-width: 300px;
-  color:#ffc7c7;
-  margin-top: auto;
-  margin-bottom: 0;
+  height: 100%;
+  color: #ffc7c7;
   font-size: 28px;
-  text-align:center;
-  z-index: 2;
-  opacity: 0;
-  
-  
+  z-index: -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `
 
 const Card = styled.div`
@@ -96,24 +78,20 @@ const Card = styled.div`
   position: relative;
   z-index:1;
   margin: 15px 15px;
-  &:hover ${FlowerImg} {
+  border: 1px solid transparent;
+  border-radius: 10px;
+  &&:hover {
+    border: 1px solid white;
+    transition: 0.4s;
+  }
+  &:hover ${FlowerDiv} {
     filter: brightness(10%);
-    
+    transition: 0.4s;
   }
-  &:hover ${Text} {
-    z-index: 5;
-    display: block;
-    opacity: 1;
+  &:hover ${OverlayDiv} {
+    z-index: 2;
   }
-
-
 `
-
-
-
-
-
-
 
 
 

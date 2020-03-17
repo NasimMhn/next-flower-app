@@ -1,24 +1,50 @@
 
-import Header from './Header'
 
 const Layout = (props) => {
   return (
     <div style={layoutStyle}>
-      <Header />
       {props.children}
+
+      <style jsx global>{`
+
+        body {
+          margin: 0;
+          padding: 0;
+          font-family: 'Open Sans', sans-serif;
+          background: #7f78d2;       
+          height:100% !important;
+          min-height: 100vh;
+          width: 100%;
+        }
+        
+        `}
+      </style>
+
+
     </div>
   )
 }
 
+
+
+
+
+
+
 // Styling
 const layoutStyle = {
-  margin: 20,
   padding: 20,
-  backgroundColor: '#ffe2e2',
+  backgroundColor: '#ffc8bd',
+  height: 'ienherit',
+  width: ' 100'
+
 }
 
 
 
 export default Layout
+
+
+
 
 

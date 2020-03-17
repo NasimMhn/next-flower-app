@@ -10,8 +10,6 @@ import { useRouter } from 'next/router'
 import styled from 'styled-components';
 
 
-import styles from '../../components/Card.module.css'
-
 
 const FlowerDetail = props => {
   const router = useRouter()
@@ -99,7 +97,7 @@ FlowerDetail.getInitialProps = async function (context) {
 
 
 
-export default FlowerDetail
+
 
 
 // Styling
@@ -108,3 +106,6 @@ const FlowerImg = styled.img`
   height: 300px;
   width: 300px;
 `
+
+
+export default FlowerDetail

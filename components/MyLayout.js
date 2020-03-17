@@ -1,5 +1,4 @@
 
-
 const Layout = (props) => {
   return (
     <div style={layoutStyle}>
@@ -25,8 +24,6 @@ const Layout = (props) => {
 }
 
 
-
-
 // Styling
 const layoutStyle = {
   padding: 0,
@@ -37,7 +34,6 @@ const layoutStyle = {
   display: 'flex',
   flexDirection: 'column',
 }
-
 
 
 export default Layout

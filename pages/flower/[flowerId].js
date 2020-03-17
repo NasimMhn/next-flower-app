@@ -11,15 +11,10 @@ import { Header } from '../../components/Header'
 
 import { useRouter } from 'next/router'
 
-
-
-
-
-
 const FlowerDetail = props => {
   const router = useRouter()
   const { flowerId } = router.query
-  const [message, setMessage] = useState()
+  const [message, setMessage] = useState('')
 
   return (
 
@@ -41,63 +36,64 @@ const FlowerDetail = props => {
       </Header>
 
       <DetailsSection>
-            <FlowerDiv filepath={props.flower.cover_image ? props.flower.cover_image : '../no-image.png'} />
+        <FlowerDiv filepath={props.flower.cover_image ? props.flower.cover_image : '../no-image.png'} />
 
-            <CoverContainer>
-              
-              <InfoContainer >
-                <div> {props.flower.common_name}</div>
-                <div>Flower latin name: {props.flower.latin_name}</div>
-                <div>Blooming season:{props.flower.blooming_season}</div>
-                <div>Soil: {props.flower.soil.join(', ').toString()}</div>
-                <div>Usage {props.flower.notes}</div>
-                <div>Sun: {props.flower.sun === true ? "☀️" : "No"}</div>
-              </InfoContainer>
-              
+        <CoverContainer>
 
-              <CommentContainer>
-                <FlexWrapper flexDirection={'column'}>
-                  <InputContainer>
-                    <TextArea 
-                      placeholder="Tell us what you think" 
-                      rows="2" 
-                      minLength="5" 
-                      axLength="62" 
-                      onChange={e => setMessage(e.target.value)} 
-                    />
-        
-                    <CommentButton 
-                      onClick={e => postComment(message, flowerId)}
-                    >
-                      Send comment
+          <InfoContainer >
+            <Title> {props.flower.common_name} <SubTitle>(Latin: {props.flower.latin_name})</SubTitle></Title>
+            <Grid>
+              <InfoTitle> Blooming season:</InfoTitle> <Text>{props.flower.blooming_season}</Text>
+              <InfoTitle> Soil: </InfoTitle> <Text>{props.flower.soil.join(', ').toString()}</Text>
+              <InfoTitle> Usage </InfoTitle><Text>{props.flower.notes}</Text>
+              <InfoTitle alignSelf={'center'}> Needs sun: </InfoTitle><Text>{props.flower.sun === true ? "Yes ☀️" : "No ☁️"} </Text>
+            </Grid>
+          </InfoContainer>
+
+
+          <CommentContainer>
+            <FlexWrapper flexDirection={'column'}>
+              <InputContainer>
+                <TextArea
+                  placeholder="Tell us what you think ..."
+                  rows="2"
+                  minLength="5"
+                  maxLength="62"
+                  onChange={e => setMessage(e.target.value)}
+                />
+
+                <CommentButton
+                  onClick={e => postComment(message, flowerId)}
+                >
+                  Send comment
                     </CommentButton>
-              
-                  </InputContainer>
-                  <CommentList>
-                    <hr/>
-                   
-                    {props.comments.map(comment =>
-                      <Comment
-                        className="comment"
-                        key={props.comments.indexOf(comment)}
-                      >
-                        {comment}
-                      </Comment>
-                    )}
-                  </CommentList>
-                </FlexWrapper>
-              </CommentContainer>
 
-            </CoverContainer>
-        
+              </InputContainer>
+              <CommentList>
+                <hr />
+
+                {props.comments.map(comment =>
+                  <Comment
+                    className="comment"
+                    key={props.comments.indexOf(comment)}
+                  >
+                    💬 { comment}
+                      </Comment>
+                )}
+              </CommentList>
+            </FlexWrapper>
+          </CommentContainer>
+
+        </CoverContainer>
+
       </DetailsSection>
     </Layout >
   )
 }
 
 const postComment = async (message, flowerId) => {
-  console.log("MESSAGE in postComment", message, flowerId)
 
+  if (message.length !== 0) {
   await fetch(`https://flowers-mock-data.firebaseio.com/comments/nasimmhn/${flowerId}.json`, {
     method: 'post',
     headers: {
@@ -105,16 +101,16 @@ const postComment = async (message, flowerId) => {
     },
     body: JSON.stringify({ comment: message })
   })
-    .then(res => { 
+    .then(res => {
       console.log("response", res)
       location.reload();
-  })
+    })
     .catch(err => console.error("Error", err))
-
+  }
 }
+
+
 FlowerDetail.getInitialProps = async function (context) {
-
-
   const { flowerId } = context.query;
 
   const resFlower = await fetch(`https://flowers-mock-data.firebaseio.com/flowers/${flowerId}.json`);
@@ -125,7 +121,7 @@ FlowerDetail.getInitialProps = async function (context) {
 
   let comments = []
   if (commentsObject !== null) {
-    comments = Object.values(commentsObject).map(i => i.comment).reverse().slice(0,5)
+    comments = Object.values(commentsObject).map(i => i.comment).reverse().slice(0, 5)
   }
 
   return { flower, comments };
@@ -158,24 +154,62 @@ const CommentButton = styled.button`
     position:relative;
 	  top:1px;
   }
+  &:disabled {
+    background:linear-gradient(to bottom, gray 5%, lightgray 100%);
+    border: 1px solid black;
+}
   
 `
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: auto 1fr;
+`
+const Title = styled.h1`
+  font-size: 25px;
+  font-weight: normal;
+`
+const SubTitle = styled.span`
+  font-size: 20px;
+  font-weight: normal;
+  font-style: italic;
+`
+const InfoTitle = styled.span`
+  padding: 3px;
+  font-size: 17px;
+  font-weight: bold;
+  text-align: right;
+  align-self: ${props => props.alignSelf};
+`
 
+const Text = styled.span`
+  margin-left: 10px;
+  padding: 3px;
+  font-size: 17px;
+  font-weight: normal;
+  font-style: italic;
+`
 const InfoContainer = styled.div`
+  min-width: 400px;
   margin: 30px;
-  width: 300px;
-  padding: 20px;
+  width: 400px;
+  padding: 10px 25px 20px 25px;
   color: white;
   background-color: rgb(0,0,0, 0.8);
-
+  -webkit-box-shadow: 8px 8px 4px -4px rgba(0,0,0,0.47);
+  -moz-box-shadow: 8px 8px 4px -4px rgba(0,0,0,0.47);
+  box-shadow: 8px 8px 4px -4px rgba(0,0,0,0.47);
 `
 const CommentContainer = styled.div`
+  min-width: 300px;
   margin: 30px;
-  height: 400px;
+  height: 450px;
   width: 300px;
   padding: 20px;
   color: white;
   background-color: rgb(0,0,0, 0.95);
+  -webkit-box-shadow: 8px 8px 4px -4px rgba(0,0,0,0.47);
+  -moz-box-shadow: 8px 8px 4px -4px rgba(0,0,0,0.47);
+  box-shadow: 8px 8px 4px -4px rgba(0,0,0,0.47);
 `
 
 const TextArea = styled.textarea`
@@ -188,9 +222,8 @@ const TextArea = styled.textarea`
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   box-shadow: inset 1px 1px 0px 0px gray;
-
 `
- 
+
 const CoverContainer = styled.div`
   height: 100%;
   width: 100%;
@@ -201,12 +234,14 @@ const CoverContainer = styled.div`
   background-color: rgb(33, 33,33, 0.1);
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   align-items: flex-end;
   justify-content: space-between;
+  @media (max-width: 1000px) {
+    justify-content: center;
+  }
 
 `
-
-
 
 const FlowerDiv = styled.div`
   background-image: url(${props => props.filepath});
@@ -217,7 +252,6 @@ const FlowerDiv = styled.div`
   width: 100%;
   z-index: 0;
   border-radius: 0px;
-
 `
 
 const FlexWrapper = styled.div`
@@ -226,16 +260,12 @@ const FlexWrapper = styled.div`
   flex-direction: ${props => props.flexDirection};
   justify-content: ${props => props.justifyContent};
   align-items: ${props => props.alignItems};
-
 `
-
 
 const Icon = styled.svg`
   width: 50px;
   margin-right: 10px;
 `
-
-
 
 const BackButton = styled.span`
   display: inline-flex;
@@ -255,42 +285,27 @@ const BackButton = styled.span`
 const DetailsSection = styled.section`
   flex-grow: 1;
   height:100%;
-  background-color: none;
   position: relative;
   height: 900px;
   width: 100%;
-  max-width: 1500px;
+
 `
 
-
-
-
-
-
-
-
-
 const InputContainer = styled.div`
-
 `
 
 const CommentList = styled.div`
-
 `
 const Comment = styled.div`
   margin: 8px 0px;
   padding: 10px;
-  background-color: #d1d1d1;
+  background-color: white;
   border-radius: 5px;
   color: black;
   -webkit-box-shadow: inset 0px 0px 9px 5px rgba(148,148,148,1);
--moz-box-shadow: inset 0px 0px 9px 5px rgba(148,148,148,1);
-box-shadow: inset 0px 0px 9px 5px rgba(148,148,148,1);
+  -moz-box-shadow: inset 0px 0px 9px 5px rgba(148,148,148,1);
+  box-shadow: inset 0px 0px 9px 5px rgba(148,148,148,1);
 
 `
-
-
-
-
 
 export default FlowerDetail

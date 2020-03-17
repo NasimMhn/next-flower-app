@@ -12,7 +12,7 @@ const Index = props => (
   <Layout>
     <Header>
       <FlexWrapper>
-        <Title> Flower </Title>
+        <Title> World of Flowers </Title>
       </FlexWrapper>
     </Header>
     <CardsWrapper>
@@ -47,6 +47,8 @@ const FlexWrapper = styled.div`
   align-items: center;
 `
 const Title = styled.h1`
+  font-family: 'Dancing Script', cursive;
+  font-size: 40px;
   color: white;
   margin: 0px;
   align-self: center;
@@ -72,6 +74,7 @@ const FlowerDiv = styled.div`
 `
 
 const OverlayDiv = styled.div`
+  font-family: 'Dancing Script', cursive;
   font-size: 35px;
   color: white;
   position: absolute;
@@ -92,13 +95,10 @@ const Card = styled.div`
   position: relative;
   z-index:1;
   margin: 15px 15px;
-  border: 1px solid white;
+  border: 1px solid darkgray;
   border-radius: 10px;
   &&:hover {
-    border: 1px solid transparent;
-    -webkit-box-shadow: 0px 0px 16px 0px rgba(94,7,166,1);
-    -moz-box-shadow: 0px 0px 16px 0px rgba(94,7,166,1);
-    box-shadow: 0px 0px 16px 0px rgba(94,7,166,1);
+    border: 1px solid white;
     transition: 0.4s;
   }
   &:hover ${FlowerDiv} {
@@ -110,8 +110,6 @@ const Card = styled.div`
     transition: 0.4s;
   }
 `
-
-
 
 export default Index;
 

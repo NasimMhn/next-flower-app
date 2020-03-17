@@ -31,8 +31,11 @@ const Layout = (props) => {
 const layoutStyle = {
   padding: 0,
   margin: 0,
-  backgroundColor: 'rgba(94,7,166,1)',
-
+  backgroundColor: '#381460',
+  height: '100%',
+  minHeight: '100vh',
+  display: 'flex',
+  flexDirection: 'column',
 }
 
 
